@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>アカウント登録</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+          .base {
+            margin: 2% 7% 0;
+            height: 500px;
+            background: blue;
+            padding: 5% 10%;
+            box-shadow: 5px 9px 8px 5px rgba(0, 0, 0, 0.5);
+          }
+          input {
+            width: 300px;
+            height: 40px;
+            font-size: large;
+          }
+          #tuikaBtn {
+            background: green;
+          }
+          h1 {
+            font-family: serif;
+          }
+          .form-control::placeholder {
+              color: #cacaca;
+              opacity: 1;
+          }
+          table {
+            border-collapse: collapse; 
+          }
+
+          th,td {
+            border: 1px solid #312929;
+            padding: 5px 10px;
+          }
+          .card {
+            width: 100%;
+            height: 350px;
+          }
+          .back{
+            padding: 30px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+          }
+          .form-group{
+            margin: 10px 0 15px 0px;
+          }
+          #result {
+            font-size: 120%;
+            margin: 10;
+            margin: 10px 20px;
+            padding: 10px 5px 20px;
+            margin: 10px 5px 10px 5px;
+          }
+
+          .row .card{
+            color: red;
+          }
+
+          .card{
+            color: blue;
+            display: block;
+            position: relative;
+          }
+
+          #modal{
+            display: none;
+            margin:1.5em auto 0;
+            background-color: white;
+            border: 1px solid black;
+            width: 50%;
+            padding: 10px 20px;
+            position: fixed;
+            border-radius: 5px;
+          }
+
+          #overLay{
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-color: rgba(0,0,0,0.75);
+          }
+
+        </style>
+    </head>
+    <body>
+        <div class="base container">
+          <div class="row">
+            <h1>アカウント登録</h1>
+          </div>
+          <div class="row">
+            <div class="card" id="card">
+              <div class="card-block">
+                <form id="form-area" class="form-inline" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                          <input id="namae" name="namae" type="text" class="form-control" placeholder="名前">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input id="nickname" name="nickname" type="text" class="form-control" placeholder="ニックネーム">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      <input id="tuikaBtn" type="button" name="touroku" value="追加">
+                    </div>
+                
+                </form>
+                <div id="tuikaMoto">
+
+                </div>
+                <div id="result">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>名前</th>
+                      <th>ニックネーム</th>
+                      <th>削除</th>
+
+                    </tr>
+                  </thead>                     
+                    <tbody id="tbody">
+                      <tr>
+
+
+                      </tr>
+                      
+                    </tbody>
+               </table>
+               </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+      <div id="overLay">
+      </div>
+        <script>
+
+          // ここに処理を書いていきます。
+
+
+          //htmlタグで指定してある、IDに合ってるドキュメント要素を取得している。
+          let count = 0;
+          let delcount = 3;
+          let button = document.getElementById('tuikaBtn');
+          let tbody = document.getElementById('tbody');
+          console.log(tbody);
+          
+
+
+          //ボタン要素をクリックすることで動作している。
+          button.addEventListener('click' ,buttonClick);
+
+          //設問7
+
+          //指定したDOM内にある親ノードを取得している。
+          function delButtonClick(target) {
+            target.parentNode.parentNode.remove();
+
+
+            //設問8
+            //データを3件登録して追加ボタンを消すようにしたが、削除ボタンでデータが削除され３件未満になった場合３件になるまで追加し直す。
+            delcount -= 1;
+            console.log(delcount);
+            if(delcount < 3) {
+              button.style.display = "block";
+            }
+            console.log('click');
+            console.log(target);
+          };
+
+          let del = document.createElement('button');
+          del.textContent = '削除';
+          console.log(del);
+
+          function buttonClick() {
+            let name = document.getElementById('namae').value;
+            let nickname = document.getElementById('nickname').value;
+
+
+            //設問4
+            //名前とニックネームが追記されないよう処理を止めている。
+            if(!namae || !nickname){
+              return false;
+            };
+
+
+            //設問2
+            //確認ダイアログを入れて、OKボタンを押した場合のみ追記される。            
+            if(!window.confirm(name + 'さん' + nickname + 'を登録します。よろしいですか？')){
+              return false;
+            }
+
+
+            //設問5
+            //名前とニックネームを３回追加されたらボタンを非表示にする。
+            count += 1;
+            console.log(count);
+
+            if (count >= 3){
+              button.style.display = "none";
+
+            }
+
+
+            //設問6
+            //登録した名前とニックネームを最大３人分までtable表示させる。
+            let tr = document.createElement('tr');
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let del = document.createElement('button');
+
+            td1.textContent = name;
+            td2.textContent = nickname;
+            del.setAttribute('onclick', 'delButtonClick(this)');
+            del.textContent = '削除';
+            
+            td3.appendChild(del);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            
+            tbody.appendChild(tr);
+
+            
+            //設問3
+            //警告ダイアログを表示させている。         
+            alert(name + 'さん' + nickname + 'を登録しました。');
+
+          };
+
+          
+          </script>
+    </body>
+</html>
+        </script>
+    </body>
+</html>
