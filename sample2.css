@@ -1,0 +1,29 @@
+h1{
+    color: black;
+}
+
+div {
+    padding: 10px;
+    width: 350px;
+    text-align: right;
+    background-color: darkgray;
+    margin-right: 100px;
+}  
+
+input[type=submit] {
+    text-align: center;
+    width: 50px;
+    border: solid 1px black;
+    border-radius: 2px;
+}
+
+label {
+    float: left;
+}
+
+input[type=text], input[type=date], input[type=number], select[name=food], textarea {
+    width: 200px;
+    height: 25px;
+    border: solid 1px black;
+    border-radius: 2px;
+}
